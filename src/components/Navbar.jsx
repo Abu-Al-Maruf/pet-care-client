@@ -2,9 +2,15 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { Squash as Hamburger } from "hamburger-react";
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
+  const { user, logOut } = useAuth();
+
+  const handleLogout = () => {
+    logOut()
+  }
   const navLink = (
     <>
       <NavLink
@@ -18,14 +24,14 @@ const Navbar = () => {
         Home
       </NavLink>
       <NavLink
-        to={"/service"}
+        to={"/services"}
         className={({ isActive }) =>
           isActive
             ? "text-lg font-semibold py-1 px-4 rounded bg-orange-400 text-white"
             : "text-lg font-semibold py-1 px-4 rounded hover:bg-orange-400 hover:text-white"
         }
       >
-        Service
+        Services
       </NavLink>
       <NavLink
         to={"/about"}
@@ -37,16 +43,26 @@ const Navbar = () => {
       >
         About
       </NavLink>
-      <NavLink
-        to={"/login"}
-        className={({ isActive }) =>
-          isActive
-            ? "text-lg font-semibold py-1 px-4 rounded bg-orange-400 text-white"
-            : "text-lg font-semibold py-1 px-4 rounded hover:bg-orange-400 hover:text-white"
-        }
-      >
-        login
-      </NavLink>
+      {user ? (
+        <NavLink
+          to={"/"}
+          onClick={handleLogout}
+          className="text-lg font-semibold py-1 px-4 rounded hover:bg-orange-400 hover:text-white"
+        >
+          Logout
+        </NavLink>
+      ) : (
+        <NavLink
+          to={"/login"}
+          className={({ isActive }) =>
+            isActive
+              ? "text-lg font-semibold py-1 px-4 rounded bg-orange-400 text-white"
+              : "text-lg font-semibold py-1 px-4 rounded hover:bg-orange-400 hover:text-white"
+          }
+        >
+          Login
+        </NavLink>
+      )}
     </>
   );
   return (
@@ -63,7 +79,11 @@ const Navbar = () => {
           <Hamburger toggled={isOpen} toggle={setOpen} />
         </span>
       </div>
-      {isOpen && <nav className="flex md:hidden flex-col fixed top-0 left-0  h-screen p-10 pr-20 transition-all bg-blue-400">{navLink}</nav>}
+      {isOpen && (
+        <nav className="flex md:hidden flex-col fixed top-0 left-0  h-screen p-10 pr-20 transition-all bg-blue-400 z-20">
+          {navLink}
+        </nav>
+      )}
     </div>
   );
 };

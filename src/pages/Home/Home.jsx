@@ -3,7 +3,7 @@ const Home = () => {
     <div className="flex flex-col-reverse gap-5 md:flex-row items-center gap-x-10 justify-between py-20 px-10 bg-orange-100/50">
       <div className="flex-1 space-y-7">
         <h1 className="text-3xl sm:text-5xl font-extrabold text-orange-500">
-          Get Your Organic Pet Food
+          Get Your Organic <br /> Pet Food
         </h1>
         <p className="text-xl font-light">
           Your Pet deserves a best quality food and healthy snacks. So, we have
