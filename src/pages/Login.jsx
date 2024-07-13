@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -14,9 +15,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+   const toastId = toast.loading('logging...');
+
     try {
       const res = await loginUser(email, password);
       console.log(res.user);
+      toast.success('Logged in', {id: toastId})
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -46,7 +50,7 @@ const Login = () => {
                     type="email"
                     label="Email"
                     className="mb-4"
-                    onBlur={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   ></TEInput>
 
                   {/* <!--Password input--> */}
@@ -54,7 +58,7 @@ const Login = () => {
                     type="password"
                     label="Password"
                     className="mb-4"
-                    onBlur={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   ></TEInput>
 
                   {/* <!--Submit button--> */}
