@@ -1,21 +1,27 @@
 import { TEInput, TERipple } from "tw-elements-react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
   const { createUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    const toastId = toast.loading("creating...");
+
     try {
       const res = await createUser(email, password);
       console.log(res.user);
+      toast.success("created", { id: toastId });
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -44,7 +50,7 @@ const Register = () => {
                     type="email"
                     label="Email"
                     className="mb-4"
-                    onBlur={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   ></TEInput>
 
                   {/* <!--Password input--> */}
@@ -52,7 +58,7 @@ const Register = () => {
                     type="password"
                     label="Password"
                     className="mb-4"
-                    onBlur={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   ></TEInput>
 
                   {/* <!--Submit button--> */}

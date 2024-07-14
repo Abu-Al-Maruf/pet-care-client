@@ -4,23 +4,30 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxios from "../hooks/useAxios";
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
+  const axios = useAxios();
 
   const { loginUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-   const toastId = toast.loading('logging...');
+    const toastId = toast.loading("logging...");
 
     try {
       const res = await loginUser(email, password);
-      console.log(res.user);
-      toast.success('Logged in', {id: toastId})
+      console.log(res.user.email);
+      const result = await axios.post("/auth/access-token", {
+        email: res.user?.email,
+      });
+      console.log(result);
+      
+      toast.success("Logged in", { id: toastId });
       navigate("/");
     } catch (err) {
       console.log(err);
