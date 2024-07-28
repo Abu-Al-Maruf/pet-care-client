@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const axios = useAxios();
 
-  const { loginUser } = useAuth();
+  const { loginUser, logOut } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,16 +21,21 @@ const Login = () => {
 
     try {
       const res = await loginUser(email, password);
-      console.log(res.user.email);
       const result = await axios.post("/auth/access-token", {
         email: res.user?.email,
       });
       console.log(result);
-      
-      toast.success("Logged in", { id: toastId });
-      navigate("/");
+
+      if (result?.data?.success) {
+        toast.success("Logged in", { id: toastId });
+        navigate("/");
+      }
     } catch (err) {
       console.log(err);
+      toast.error(err.message, { id: toastId });
+      if (err.message === "Network Error") {
+        logOut();
+      }
     }
   };
 
@@ -58,6 +63,7 @@ const Login = () => {
                     label="Email"
                     className="mb-4"
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   ></TEInput>
 
                   {/* <!--Password input--> */}
@@ -66,6 +72,7 @@ const Login = () => {
                     label="Password"
                     className="mb-4"
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                   ></TEInput>
 
                   {/* <!--Submit button--> */}

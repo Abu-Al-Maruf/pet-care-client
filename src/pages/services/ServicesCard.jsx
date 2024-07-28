@@ -20,8 +20,9 @@ const ServicesCard = ({ service }) => {
         <p className="text-gray-500 mb-1 text-sm sm:text-md">
           <span className="font-semibold">Stock</span>: {availability}
         </p>
-        <p className="text-gray-500 mb-1 text-sm sm:text-md">
-          <span className="font-semibold">Price</span>: {price}&#2547;
+        <p className="text-gray-500 mb-1 text-sm sm:text-md ">
+          <span className="font-semibold ">Price</span>:{" "}
+          <span className="text-red-600">{price}&#2547;</span>;
         </p>
       </div>
     </div>

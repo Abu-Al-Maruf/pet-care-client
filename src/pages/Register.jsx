@@ -51,6 +51,7 @@ const Register = () => {
                     label="Email"
                     className="mb-4"
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   ></TEInput>
 
                   {/* <!--Password input--> */}
@@ -59,6 +60,7 @@ const Register = () => {
                     label="Password"
                     className="mb-4"
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                   ></TEInput>
 
                   {/* <!--Submit button--> */}
